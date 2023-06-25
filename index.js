@@ -3,9 +3,10 @@ var app = express();
 var redis = require('redis');
 var redisClient;
 var bodyParser = require('body-parser')
-const NodeCache = require( "node-cache" );
-const QUEUECACHE = new NodeCache();
-const LIFTS = ["silverFir", "easyStreet", "reggies", "centralExpress", "triple60", "gallery", "holiday"];
+const NODECACHE = require( "node-cache" );
+const QUEUECACHE = new NODECACHE();
+const LIFTDATA = require('./data/lift-data.json');
+const LIFTS = LIFTDATA.liftData;
 
 // parse application/x-www-form-urlencoded
 // app.use(bodyParser.urlencoded({ extended: false }))
@@ -52,9 +53,10 @@ app.post('/collectData', asyncHandler(async function (req, res) {
  async function calculate(){
     
     for (const lift of LIFTS){
-        let liftQueueSize = await redisClient.eval(`return #redis.pcall('keys', '${lift}:*')`);
-        QUEUECACHE.set(lift, liftQueueSize);
-        console.log({QueueCache: {lift, liftQueueSize}})
+        let liftQueueSize = await redisClient.eval(`return #redis.pcall('keys', '${lift.name}:*')`);
+        
+        QUEUECACHE.set(lift.name, liftQueueSize);
+        
     }
     
     
@@ -64,8 +66,8 @@ async function getQueueSize(){
     
     let liftQueues = {};
     for (const lift of LIFTS){
-        let liftQueueSize = QUEUECACHE.get(lift);
-        liftQueues[lift] = liftQueueSize;
+         
+        liftQueues[lift.name] = Math.round(QUEUECACHE.get(lift.name)/lift.peoplePerMinute);
     }
     return liftQueues;
     

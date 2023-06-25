@@ -1,0 +1,30 @@
+{
+    "liftData": [{
+        "name": "silverFir",
+        "peoplePerMinute": 20
+    },
+    {
+        "name": "reggies",
+        "peoplePerMinute": 12
+    },
+    {
+        "name": "centralExpress",
+        "peoplePerMinute": 20
+    },
+    {
+        "name": "triple60",
+        "peoplePerMinute": 13
+    },
+    {
+        "name": "gallery",
+        "peoplePerMinute": 12
+    },
+    {
+        "name": "holiday",
+        "peoplePerMinute": 19
+    },
+    {
+        "name": "easyStreet",
+        "peoplePerMinute": 12
+    }]
+}

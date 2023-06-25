@@ -1,8 +1,15 @@
 const axios = require('axios');
-
+const liftData = require('../data/lift-data.json');
+const lifts = liftData.liftData;
+var redisClient;
+var redis = require('redis');
 
 describe('collectData endpoint', () => {
-    beforeAll(() => {
+    beforeAll(async () => {
+        redisClient = redis.createClient();
+        await redisClient.connect();
+        await redisClient.FLUSHALL();
+        await redisClient.QUIT();
         uniqueIDs = generateUniqueIDs(100); // Generate 100 random unique IDs
     
       });
@@ -15,19 +22,12 @@ describe('collectData endpoint', () => {
             });
             
         for (const lift of lifts) {
-            expect(response.data[lift.name]).toBe(lift.expectedQueue);
+            expect(response.data[lift.name]).toBe(Math.round(100/lift.peoplePerMinute));
         }
         
       },8000);
     
-  const lifts = [
-    {name: "silverFir", expectedQueue: 100},
-    {name: "reggies", expectedQueue: 100},
-    {name: "centralExpress", expectedQueue: 100},
-    {name: "triple60", expectedQueue: 100},
-    {name: "gallery", expectedQueue: 100},
-    {name: "holiday", expectedQueue: 100},
-    {name: "easyStreet", expectedQueue: 100}]; 
+
   let uniqueIDs;
 
 
