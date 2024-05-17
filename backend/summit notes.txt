@@ -1,0 +1,34 @@
+
+
+
+Holiday: status
+update
+
+Gallery: status
+update
+
+
+
+
+1 0 minutes
+2 1 minute
+3 3
+4 5
+5 10
+
+
+
+
+
+Indefinite updates but each update only saves under the same unique id
+Thank you message, store user points
+
+Status shown is average of the last 10 minutes
+Save the previous average (show this if there were no updates in the 10 minute period)
+
+Start at 'no data' in the morning
+
+
+
+
+
