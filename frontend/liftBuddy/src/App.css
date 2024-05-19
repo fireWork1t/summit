@@ -1,0 +1,320 @@
+.app-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f4f7f9; /* Light background color */
+  min-width: 250px;
+  overflow:auto;
+}
+
+.body {
+  background-color: #f4f7f9;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #034f84; /* Dark blue color */
+}
+
+.ski-area-select {
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  
+}
+.modal button.cancel-button {
+  background-color: #02669b; /* Darker blue */
+}
+
+.modal button.cancel-button:hover {
+  background-color: #024f78; /* Even darker blue on hover */
+}
+
+
+.thank-you-message {
+  position:fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #28a745;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  z-index: 1001;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  animation: thank-you-fadeIn 0.5s ease-in-out;
+  
+  pointer-events: none; /* Ensures message doesn't block clicks when invisible */
+}
+
+
+
+
+
+
+@keyframes thank-you-fadeIn {
+  from {
+    top: 0px;
+    opacity: 0;
+    
+    
+  }
+  to {
+    top: 20px;
+    opacity: 1;
+    
+    
+  }
+}
+
+@keyframes modalFadeIn {
+  from {
+    top: 60%;
+    opacity: 0;
+    
+    
+  }
+  to {
+    top: 50%;
+    opacity: 1;
+    
+    
+  }
+}
+
+
+
+/*.ski-area-select select {
+  padding: 15px;
+  font-size: 18px;
+  background-color: #fff;
+  border: 1px solid #034f84; 
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+.ski-area-select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+
+.ski-area-select-selected{
+  background-color: DodgerBlue;
+}
+
+.ski-area-select option {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #ffffff;
+}
+*/
+
+.ski-area-header {
+  text-align: center;
+  margin-top: 10px;
+  padding-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0px;
+  color: #034f84; 
+  background-color: #b1d2eb;
+  max-width: 700px;
+  
+  
+}
+
+.lift-list {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  white-space: nowrap;
+  overflow: auto;
+  width: auto;
+  min-width: 450px;
+}
+
+.lift-item {
+  width: 100%;
+  max-width: 700px;
+  margin: 0px auto;
+  padding: 0px;
+  border: 0px solid #ddd;
+  border-radius: 0px;
+  text-align: left;
+  background-color: #b1d2eb;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  display: inline-block;
+  white-space: nowrap;
+  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); */
+  /* transition: box-shadow 0.3s ease; */
+}
+/* .lift-item:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); 
+} */
+
+.modal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  
+  background-color: white;
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+  animation: modalFadeIn 0.3s ease-in-out;
+  opacity: 0; /* Start with the modal transparent */
+  
+  pointer-events: none; /* Prevent mouse events when modal is not visible */
+  max-width: 90%; /* Maximum width of the modal relative to the screen size */
+  max-height: 90%; /* Maximum height of the modal relative to the screen size */
+  overflow-y: auto; /* Enable scrolling for overflow content */
+}
+
+/* The .modal-open class is applied when the modal should be visible */
+.modal-open {
+  opacity: 1; /* Make the modal fully visible */
+  pointer-events: auto; /* Allow mouse events */
+  
+}
+
+
+
+
+
+
+.lift-item p {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 5px;
+  padding-left: 15px;
+}
+
+
+
+.lift-item button {
+  margin-top: 0px;
+  padding: 5px 5px;
+  margin-right: 15px;
+  font-size: 15px;
+  cursor: pointer;
+  background-color: #2c8dc1;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  float:right;
+  
+  white-space: nowrap;
+  
+}
+
+.lift-item button:hover {
+  background-color: #02669b; /* Darker blue on hover */
+}
+
+
+.modal-header {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #034f84; /* Dark blue color */
+}
+
+.modal button {
+  padding: 15px 25px;
+  margin: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #0288d1; /* Lighter blue */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+
+@media (max-width: 768px) {
+  .modal button {
+    padding: 12px 20px;
+    font-size: 15px;
+    margin: 4px;
+  }
+
+  .modal {
+    padding: 15px;
+  }
+
+  .modal-header {
+    font-size: 18px;
+  }
+}
+
+/* Make buttons smaller on mobile screens */
+@media (max-width: 480px) {
+  .modal button {
+    padding: 10px 15px;
+    font-size: 14px;
+    margin: 3px;
+  }
+
+  .modal {
+    padding: 10px;
+  }
+
+  .modal-header {
+    font-size: 16px;
+  }
+}
+
+
+
+.modal button:hover {
+  background-color: #02669b; /* Darker blue on hover */
+}
+
+/* Add more styles as needed */
+
+
+
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #ff0000;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.dropdown-content .dropdown-item {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content .dropdown-item:hover {
+  background-color: #ff0000;
+}
+
+.dropdown input:focus + .dropdown-content,
+.dropdown-content:hover {
+  display: block;
+}

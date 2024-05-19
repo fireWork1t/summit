@@ -1,0 +1,120 @@
+{
+    "liftData": [
+        {
+            "name": "Holiday",
+            "skiArea": "Summit Central"
+            
+            
+        },
+        {
+            "name": "Gallery",
+            "skiArea": "Summit Central"
+            
+        },
+        {
+            "name": "Triple 60",
+            "skiArea": "Summit Central"
+            
+        },
+        {
+            "name": "Central Carpet",
+            "skiArea": "Summit Central"
+            
+        },
+        {
+            "name": "Central Express",
+            "skiArea": "Summit Central"
+            
+        },
+        {
+            "name": "Reggie's",
+            "skiArea": "Summit Central"
+            
+        },
+        {
+            "name": "Easy Street",
+            "skiArea": "Summit Central"
+            
+        },
+        {
+            "name": "Silver Fir Express",
+            "skiArea": "Summit Central"
+            
+        },
+        
+        
+        
+        
+        
+        
+
+
+
+            
+        {
+            "name": "Julies",
+            "skiArea": "Summit West"
+        },
+
+        {
+            "name": "Pacific Crest",
+            "skiArea": "Summit West"
+        },
+
+        {
+            "name": "Dodge Ridge",
+            "skiArea": "Summit West"
+        },
+
+        {
+            "name": "Little Thunder",
+            "skiArea": "Summit West"
+        },
+
+        {
+            "name": "Wildside",
+            "skiArea": "Summit West"
+        },
+
+
+
+
+        {
+            "name": "Rampart",
+            "skiArea": "Summit East"
+        },
+
+        {
+            "name": "East Peak",
+            "skiArea": "Summit East"
+        },
+
+        {
+            "name": "Hidden Valley",
+            "skiArea": "Summit East"
+        },
+
+
+
+
+        {
+            "name": "St. Bernard",
+            "skiArea": "Alpental"
+        },
+
+        {
+            "name": "Sessel",
+            "skiArea": "Alpental"
+        },
+
+        {
+            "name": "Armstrong Express",
+            "skiArea": "Alpental"
+        },
+
+        {
+            "name": "Edelweiss",
+            "skiArea": "Alpental"
+        }
+    ]
+}
