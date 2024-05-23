@@ -16,6 +16,8 @@ const LIFTS = LIFTDATA.liftData
 const AVERAGE_WAIT_TIME_EXPIRATION = 10800
 const USER_DATA_EXPIRATION = 600
 
+const REDIS_URL = process.env.REDIS_URL ?? 'redis://127.0.0.1:6379'
+
 // const waitTimeMapping = {
 //   '0 minutes': 0,
 //   '1 minute': 1,
@@ -38,7 +40,7 @@ var calculationInterval = setInterval(function () {
 async function connectRedis () {
   redisClient = redis.createClient()
   redisClient.on('error', err => console.log('Redis Client Error', err))
-  await redisClient.connect()
+  await redisClient.connect({ url: REDIS_URL })
 }
 
 const asyncHandler = fun => (req, res, next) => {

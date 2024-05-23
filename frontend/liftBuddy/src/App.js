@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react'
 
+import MetaTags from 'react-meta-tags'
+import Select from 'react-dropdown-select'
 import axios from 'axios'
 import './App.css'
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
 const LIFTDATA = require('./lift-data.json')
 const LIFTS = LIFTDATA.liftData
-
+const BACKEND_URL =
+  process.env.BACKEND_URL ?? 'https://backend-ct0m1hra2j7pg.cpln.app'
 // Initialize an agent at application startup.
 const fpPromise = FingerprintJS.load()
+const onChange = values => {
+  return <div>debug: {values}</div>
+}
 
 const App = () => {
-  const [selectedSkiArea, setSelectedSkiArea] = useState('')
+  const [selectedSkiArea, setSelectedSkiArea] = useState([])
   const [skiAreas, setSkiAreas] = useState([])
-  const [liftData, setLiftData] = useState([])
+  const [liftData, setLiftData] = useState({})
   const [waitTimeData, setWaitTimeData] = useState({})
   const [uniqueID, setUniqueID] = useState('')
 
@@ -25,6 +31,45 @@ const App = () => {
   const [fadeOut, setFadeOut] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [isDropdownVisible, setIsDropdownVisible] = useState(false)
+  const skiAreaSelect = ({ options }) => (
+    <Select
+      multi
+      closeOnSelect
+      placeholder='Choose one or more ski areas...'
+      options={options}
+      values={[]}
+      onChange={values => {
+        if (Array.isArray(values) && values.length) {
+          handleSkiAreaChange(values)
+        }
+      }}
+    />
+  )
+
+  const displayWaitTimes = skiArea => {
+    console.log({ lift: skiArea.lifts })
+
+    return (
+      <div>
+        <h2 className='ski-area-header'>{skiArea.area} Wait Times:</h2>
+        <div className='lift-list'>
+          {Object.keys(skiArea.lifts).map(lift => (
+            <div key={lift} className='lift-item'>
+              <p>
+                {lift}:{' '}
+                <span style={getColorBasedOnWaitTime(skiArea.lifts[lift])}>
+                  {skiArea.lifts[lift] === null
+                    ? ' No Data   '
+                    : ` ${skiArea.lifts[lift]} min   `}
+                </span>
+                <button onClick={() => handleOpenModal(lift)}>Update</button>
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
 
   useEffect(() => {
     // Generate a uniqueID for the user (You may want to implement this differently)
@@ -33,7 +78,7 @@ const App = () => {
     fetchSkiAreas()
 
     // Fetch initial lift data when the component mounts
-    fetchLiftData(selectedSkiArea)
+    //fetchLiftData(selectedSkiArea)
 
     // Set up interval to periodically update lift data
     const interval = setInterval(() => {
@@ -60,24 +105,37 @@ const App = () => {
   const fetchSkiAreas = () => {
     // Extract unique ski area names from LIFTS
     const skiAreaNames = [...new Set(LIFTS.map(item => item.skiArea))]
-    setSkiAreas(skiAreaNames)
+
+    const options = skiAreaNames.map(skiArea => ({
+      label: skiArea,
+      value: skiArea
+    }))
+
+    const result = { options: options }
+
+    setSkiAreas(result)
   }
 
-  const fetchLiftData = skiArea => {
-    if (!skiArea) {
-      // No ski area selected, so don't fetch data
+  const fetchLiftData = async skiAreas => {
+    //console.log(JSON.stringify(skiAreas))
+    if (skiAreas.length == 0) {
       return
     }
+    let data = { areas: [] }
+    for (const skiArea of skiAreas) {
+      await axios
+        .get(`${BACKEND_URL}/status/${skiArea.value}`)
 
-    axios
-      .get(`http://localhost:8080/status/${skiArea}`)
-      .then(response => {
-        setLiftData(response.data)
-        console.log(response.data)
-      })
-      .catch(error => {
-        console.error('Error fetching lift data', error)
-      })
+        .then(response => {
+          data['areas'].push({ area: skiArea.value, lifts: response.data })
+        })
+        .catch(error => {
+          console.error('Error fetching lift data', error)
+        })
+    }
+    setLiftData(data)
+
+    console.log(JSON.stringify(liftData))
   }
 
   const waitTimeMapping = {
@@ -90,7 +148,7 @@ const App = () => {
     '9 minutes': 9,
     '10 minutes': 11,
     '15 minutes': 15,
-    'over 15 minutes': 20
+    '20+ minutes': 20
   }
 
   const getColorBasedOnWaitTime = waitTime => {
@@ -124,11 +182,10 @@ const App = () => {
     'Alpental'
   ]
 
-  const handleSkiAreaChange = event => {
-    const selectedArea = event.target.value
-    if (skiAreaNames.includes(selectedArea)) {
-      setSelectedSkiArea(selectedArea)
-      fetchLiftData(selectedArea)
+  function handleSkiAreaChange (selectedAreas) {
+    if (selectedAreas != null) {
+      setSelectedSkiArea(selectedAreas)
+      fetchLiftData(selectedAreas)
     }
   }
 
@@ -144,9 +201,9 @@ const App = () => {
 
   const handleWaitTimeUpdate = async displayedWaitTime => {
     if (!selectedLiftForUpdate) return
-
+    handleCloseModal()
     axios
-      .post('http://localhost:8080/update', {
+      .post(`${BACKEND_URL}/update`, {
         lift: selectedLiftForUpdate,
         uniqueID: await generateUniqueID(),
         waitTime: displayedWaitTime
@@ -159,76 +216,28 @@ const App = () => {
       .catch(error => {
         console.error('Error updating wait time', error)
       })
-      .finally(() => {
-        handleCloseModal()
-      })
+      .finally(() => {})
   }
-
-  const items = [
-    'Apple',
-    'Banana',
-    'Cherry',
-    'Date',
-    'Elderberry',
-    'Fig',
-    'Grape'
-  ]
-
-  const filteredItems = items.filter(item =>
-    item.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-
-  const handleSearchChange = event => {
-    setSearchTerm(event.target.value)
-  }
-
-  const handleDropdownClick = () => {
-    setIsDropdownVisible(true)
-  }
-
-  const handleOutsideClick = event => {
-    if (!event.target.closest('.dropdown')) {
-      setIsDropdownVisible(false)
-    }
-  }
-
-  // Add an event listener to handle outside clicks
-  React.useEffect(() => {
-    document.addEventListener('click', handleOutsideClick)
-    return () => {
-      document.removeEventListener('click', handleOutsideClick)
-    }
-  }, [])
 
   return (
     <body>
+      <MetaTags>
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
+        />
+      </MetaTags>
+
       <div className='app-container'>
         <h1 className='app-header'>LiftBuddy</h1>
         {showThankYou && (
           <div className={`thank-you-message`}>Thanks for contributing!</div>
         )}
 
-        <div className='ski-area-select'>
-          <label htmlFor='skiAreaSelect'>Choose Ski Area: </label>
-          <input
-            autoComplete='on'
-            list='skiAreaSelect'
-            onChange={handleSkiAreaChange}
-            value={this}
-            className='input-with-datalist'
-          />
-          <datalist id='skiAreaSelect'>
-            {!selectedSkiArea && <option value=''>Select an area</option>}
-            <option value='Summit Central'>Summit Central</option>
-            <option value='Summit West'>Summit West</option>
-            <option value='Summit East'>Summit East</option>
-            <option value='Alpental'>Alpental</option>
-          </datalist>
-        </div>
+        <div className='dropdown'>{skiAreaSelect(skiAreas)}</div>
 
-        {selectedSkiArea && (
-          <h2 className='ski-area-header'>{selectedSkiArea} Wait Times:</h2>
-        )}
+        {(liftData.areas ?? []).map(area => displayWaitTimes(area))}
+
         {isModalOpen && (
           <div className={`modal ${isModalOpen ? 'modal-open' : ''}`}>
             <h3 className='modal-header'>
@@ -250,28 +259,9 @@ const App = () => {
             </button>
           </div>
         )}
-        <div className='lift-list'>
-          {Object.keys(liftData).map(liftName => (
-            <div key={liftName} className='lift-item'>
-              <p>
-                {liftName}:{' '}
-                <span style={getColorBasedOnWaitTime(liftData[liftName])}>
-                  {liftData[liftName] === null
-                    ? ' No Recent Data   '
-                    : ` ${liftData[liftName]} min   `}
-                </span>
-                <button onClick={() => handleOpenModal(liftName)}>
-                  Update
-                </button>
-              </p>
-            </div>
-          ))}
-        </div>
       </div>
     </body>
   )
 }
 
 export default App
-
-//test

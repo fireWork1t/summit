@@ -3,6 +3,7 @@
   padding: 20px;
   background-color: #f4f7f9; /* Light background color */
   min-width: 250px;
+  min-height: 95.5vh;
   overflow:auto;
 }
 
@@ -16,12 +17,7 @@
   color: #034f84; /* Dark blue color */
 }
 
-.ski-area-select {
-  text-align: center;
-  margin-bottom: 20px;
-  position: relative;
-  
-}
+
 .modal button.cancel-button {
   background-color: #02669b; /* Darker blue */
 }
@@ -146,6 +142,7 @@
 .lift-item {
   width: 100%;
   max-width: 700px;
+  
   margin: 0px auto;
   padding: 0px;
   border: 0px solid #ddd;
@@ -189,9 +186,27 @@
 }
 
 
+.dropdown{
+  
+  font-size: 16px; /* Prevent iOS zoom */
+  -webkit-text-size-adjust: 100%; 
+  max-width: 350px;
+  margin: auto;
+}
 
-
-
+.clear-button {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+}
 
 .lift-item p {
   font-size: 20px;
@@ -259,22 +274,110 @@
   }
 }
 
-/* Make buttons smaller on mobile screens */
-@media (max-width: 480px) {
+/* 
+@media (max-width: 600px) {
   .modal button {
-    padding: 10px 15px;
-    font-size: 14px;
+    padding: 5px 10px;
+    font-size: 20px;
     margin: 3px;
   }
 
   .modal {
     padding: 10px;
+    min-width: 300px;
   }
 
   .modal-header {
-    font-size: 16px;
+    font-size: 20px;
   }
+.lift-list {
+  min-width: 200px;
 }
+  .lift-item {
+    margin-left: auto;
+  margin-right: auto;
+  }
+  .lift-item p {
+    font-size: 20px;
+  }
+
+  .thank-you-message {
+    min-width: 200px;
+    text-align: center;
+  }
+  
+  }
+Make buttons smaller on mobile screens */
+
+
+
+  @media (max-width: 500px) {
+    .modal button {
+      padding: 5px 10px;
+      font-size: 20px;
+      margin: 3px;
+    }
+  
+    .modal {
+      padding: 10px;
+      min-width: 300px;
+    }
+  
+    .modal-header {
+      font-size: 20px;
+    }
+  .lift-list {
+    min-width: 200px;
+  }
+    .lift-item {
+      margin-left: auto;
+    margin-right: auto;
+    }
+    .lift-item p {
+      font-size: 17px;
+    }
+  
+    .thank-you-message {
+      min-width: 200px;
+      text-align: center;
+    }
+    
+    }
+
+    @media (max-width: 370px) {
+      .modal button {
+        padding: 5px 10px;
+        font-size: 20px;
+        margin: 3px;
+      }
+    
+      .modal {
+        padding: 10px;
+        min-width: 300px;
+      }
+    
+      .modal-header {
+        font-size: 20px;
+      }
+    .lift-list {
+      min-width: 200px;
+    }
+      .lift-item {
+        margin-left: auto;
+      margin-right: auto;
+      }
+      .lift-item p {
+        font-size: 13px;
+      }
+    
+      .thank-you-message {
+        min-width: 200px;
+        text-align: center;
+      }
+      
+      }
+  
+
 
 
 
@@ -285,36 +388,3 @@
 /* Add more styles as needed */
 
 
-
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #ff0000;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.4);
-  z-index: 1;
-}
-
-.dropdown-content .dropdown-item {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-content .dropdown-item:hover {
-  background-color: #ff0000;
-}
-
-.dropdown input:focus + .dropdown-content,
-.dropdown-content:hover {
-  display: block;
-}
