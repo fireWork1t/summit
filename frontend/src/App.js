@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 
-import MetaTags from 'react-meta-tags'
 import Select from 'react-dropdown-select'
 import axios from 'axios'
 import './App.css'
@@ -118,7 +117,7 @@ const App = () => {
 
   const fetchLiftData = async skiAreas => {
     //console.log(JSON.stringify(skiAreas))
-    if (skiAreas.length == 0) {
+    if (skiAreas.length === 0) {
       return
     }
     let data = { areas: [] }
@@ -221,13 +220,12 @@ const App = () => {
 
   return (
     <body>
-      <MetaTags>
+      {/* <MetaTags>
         <meta
           name='viewport'
           content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
         />
-      </MetaTags>
-
+      </MetaTags> */}
       <div className='app-container'>
         <h1 className='app-header'>LiftBuddy</h1>
         {showThankYou && (
